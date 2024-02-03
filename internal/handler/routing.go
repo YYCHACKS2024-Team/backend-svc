@@ -28,10 +28,10 @@ func InitRoute(e *echo.Echo) {
 	user.POST("/user/preferences", nil) // store preference
 
 	// roommate
-	room := e.Group("/roommate")
-	room.GET("/roommate/:room_id", nil) // get room list
-	room.POST("/roommate/accept", nil)
-	room.POST("/roommate/decline", nil)
+	roommate := e.Group("/roommate")
+	roommate.GET("/roommate/:room_id", nil) // get room list
+	roommate.POST("/roommate/accept", nil)
+	roommate.POST("/roommate/decline", nil)
 
 	// chat
 	chat := e.Group("/chat")
