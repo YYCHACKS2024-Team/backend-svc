@@ -5,8 +5,11 @@ import (
 	"net/http"
 
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/config"
+	userdb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/userDB"
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler"
+	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/userHandler"
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/helper/logger"
+	userservice "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service/userService"
 	"github.com/labstack/echo/v4"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -22,29 +25,29 @@ func main() {
 	logger.InitLog(cfg.Log)
 	defer logger.CloseLogger()
 
-	_, err = initDB(cfg.Database)
+	db, err := initDB(cfg.Database)
 	if err != nil {
 		panic(err)
 	}
 
 	// Init repositories
-	// cartDB := cartdb.New(db)
+	userDB := userdb.New(db)
 	// orderDB := orderdb.New(db)
 	// discountDB := discountdb.New(db)
 
 	// Init gateway
 
 	// Init services
-	// cartSvc := cartservice.New(cartDB, productServiceGw)
+	userSvc := userservice.New(userDB)
 
 	// Init handlers
-	// cartHdl := carthandler.NewHTTPHandler(cartSvc)
+	userHdl := userHandler.NewHTTPHandler(userSvc)
 	// orderHdl := orderhandler.NewHTTPHandler(orderSrv)
 	// discountHdl := discounthandler.NewHTTPHandler(discountSrv)
 
 	// Starting server
 	e := echo.New()
-	handler.InitRoute(e)
+	handler.InitRoute(e, userHdl)
 
 	logger.Infof("Starting server on port %v...\n", cfg.App.Port)
 	if err := e.Start(":" + cfg.App.Port); err != http.ErrServerClosed {
