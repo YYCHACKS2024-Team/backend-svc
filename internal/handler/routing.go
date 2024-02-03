@@ -17,23 +17,29 @@ func InitRoute(e *echo.Echo) {
 		}),
 	)
 
-	// Cart
-	_ = e.Group("/cart")
-	// cart.POST("", cartHdl.AddToCart)
-	// cart.DELETE("/cancel/:cart_id/:no", cartHdl.Cancel)
-	// cart.GET(("/customer/:customer_id"), cartHdl.GetCartByCustomerId)
-	// cart.GET("/:cart_id", cartHdl.GetCartById)
+	// User
+	user := e.Group("/user")
+	user.GET("/users", nil)          // get all user
+	user.GET("/user/:user_id", nil)  // get user by id
+	user.POST("/user/register", nil) // create user
+	user.POST("/user/login", nil)    // login
+	user.GET("/user/profile", nil)   // get user profile
 
-	// Order
-	// order := e.Group("/order")
-	// order.POST("", orderHdl.Order)
-	// order.GET("/customer/:customer_id", orderHdl.GetOrderByCustomerId)
-	// order.GET("/date/:date", orderHdl.GetOrderByDate)
-	// order.GET("/active", orderHdl.GetActiveOrders)
-	// order.POST("/proceed/:order_id", orderHdl.ProceedOrder)
-	// order.DELETE("/cancel/:order_id", orderHdl.CancelOrder)
+	user.POST("/user/preferences", nil) // store preference
 
-	// // Discount
-	// discount := e.Group("/discount")
-	// discount.GET("/:code", discountHdl.GetDiscountByCode)
+	// roommate
+	room := e.Group("/roommate")
+	room.GET("/roommate/:room_id", nil) // get room list
+	room.POST("/roommate/accept", nil)
+	room.POST("/roommate/decline", nil)
+
+	// chat
+	chat := e.Group("/chat")
+	chat.POST("/chat/store", nil)
+	chat.GET("/chat/:conversation_id", nil)             // get conversation room by id
+	chat.GET("/chat/:conversation_id/:message_id", nil) // get message id
+
+	// house
+	house := e.Group("/house")
+	house.GET("/house/:house_id", nil) // get house detail by id
 }
