@@ -1,0 +1,11 @@
+app:
+    name: backend-serivce
+    port: "8080"
+log:
+    env: "dev"
+database:
+    username: root
+    password: password
+    host: db
+    port: 3306
+    dbname: payment

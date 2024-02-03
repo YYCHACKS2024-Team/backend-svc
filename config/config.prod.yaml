@@ -1,0 +1,10 @@
+app:
+    name: backend-serivce
+    port: "8080"
+log:
+    env: "dev"
+database:
+    username: admin
+    password: 
+    host: ''
+    port: 3306
