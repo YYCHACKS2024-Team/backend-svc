@@ -15,7 +15,7 @@ func NewHTTPHandler() HTTPHandler {
 	return HTTPHandler{}
 }
 
-func (hdl HTTPHandler) AddToCart(c echo.Context) error {
+func (hdl HTTPHandler) GetAllUsers(c echo.Context) error {
 
 	var req models.AddToCartRequest
 	var res models.AddToCartResponse

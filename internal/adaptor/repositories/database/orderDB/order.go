@@ -1,83 +1,76 @@
 package orderdb
 
-import (
-	"time"
+// type repository struct {
+// 	db *gorm.DB
+// }
 
-	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/models"
-	"gorm.io/gorm"
-)
+// func New(db *gorm.DB) repository {
+// 	return repository{
+// 		db: db,
+// 	}
+// }
 
-type repository struct {
-	db *gorm.DB
-}
+// func (repo repository) Insert(order models.Order) error {
 
-func New(db *gorm.DB) repository {
-	return repository{
-		db: db,
-	}
-}
+// 	if tx := repo.db.Create(&order); tx.Error != nil {
+// 		return tx.Error
+// 	}
 
-func (repo repository) Insert(order models.Order) error {
+// 	return nil
+// }
 
-	if tx := repo.db.Create(&order); tx.Error != nil {
-		return tx.Error
-	}
+// func (repo repository) FindByCustomerIdAndStatus(customerId string, status string) ([]models.Order, error) {
 
-	return nil
-}
+// 	var orders []models.Order
+// 	tx := repo.db.Where("customer_id = ? AND status = ?", customerId, status).Find(&orders)
+// 	if tx.Error != nil {
+// 		return nil, tx.Error
+// 	}
 
-func (repo repository) FindByCustomerIdAndStatus(customerId string, status string) ([]models.Order, error) {
+// 	return orders, nil
+// }
 
-	var orders []models.Order
-	tx := repo.db.Where("customer_id = ? AND status = ?", customerId, status).Find(&orders)
-	if tx.Error != nil {
-		return nil, tx.Error
-	}
+// func (repo repository) GetAll() ([]models.Order, error) {
 
-	return orders, nil
-}
+// 	var orders []models.Order
+// 	tx := repo.db.Find(&orders)
+// 	if tx.Error != nil {
+// 		return nil, tx.Error
+// 	}
 
-func (repo repository) GetAll() ([]models.Order, error) {
+// 	return orders, nil
+// }
 
-	var orders []models.Order
-	tx := repo.db.Find(&orders)
-	if tx.Error != nil {
-		return nil, tx.Error
-	}
+// func (repo repository) GetOrderByDateMonth(date time.Time) ([]models.Order, error) {
 
-	return orders, nil
-}
+// 	startOfMonth := time.Date(date.Year(), date.Month(), 1, 0, 0, 0, 0, time.Local)
+// 	endOfMonth := startOfMonth.AddDate(0, 1, 0).Add(-time.Second)
 
-func (repo repository) GetOrderByDateMonth(date time.Time) ([]models.Order, error) {
+// 	var orders []models.Order
+// 	if err := repo.db.Where("YEAR(date_time) = ? AND MONTH(date_time) = ? AND date_time BETWEEN ? AND ?", date.Year(), date.Month(), startOfMonth, endOfMonth).Find(&orders).Error; err != nil {
+// 		return nil, err
+// 	}
 
-	startOfMonth := time.Date(date.Year(), date.Month(), 1, 0, 0, 0, 0, time.Local)
-	endOfMonth := startOfMonth.AddDate(0, 1, 0).Add(-time.Second)
+// 	return orders, nil
+// }
 
-	var orders []models.Order
-	if err := repo.db.Where("YEAR(date_time) = ? AND MONTH(date_time) = ? AND date_time BETWEEN ? AND ?", date.Year(), date.Month(), startOfMonth, endOfMonth).Find(&orders).Error; err != nil {
-		return nil, err
-	}
+// func (repo repository) GetOrderByStatus(status string) ([]models.Order, error) {
 
-	return orders, nil
-}
+// 	var orders []models.Order
+// 	tx := repo.db.Where(models.Order{Status: status}).Find(&orders)
+// 	if tx.Error != nil {
+// 		return nil, tx.Error
+// 	}
 
-func (repo repository) GetOrderByStatus(status string) ([]models.Order, error) {
+// 	return orders, nil
+// }
 
-	var orders []models.Order
-	tx := repo.db.Where(models.Order{Status: status}).Find(&orders)
-	if tx.Error != nil {
-		return nil, tx.Error
-	}
+// func (repo repository) UpdateOrderStatus(orderId string, status string) error {
 
-	return orders, nil
-}
+// 	tx := repo.db.Model(&models.Order{}).Where(models.Order{OrderId: orderId}).Update("status", status)
+// 	if tx.Error != nil {
+// 		return tx.Error
+// 	}
 
-func (repo repository) UpdateOrderStatus(orderId string, status string) error {
-
-	tx := repo.db.Model(&models.Order{}).Where(models.Order{OrderId: orderId}).Update("status", status)
-	if tx.Error != nil {
-		return tx.Error
-	}
-
-	return nil
-}
+// 	return nil
+// }
