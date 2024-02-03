@@ -1,37 +1,45 @@
-package carthandler
+package userHandler
 
 import (
 	"net/http"
 
-	apiresponse "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/api_response"
+	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/constant"
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/models"
+	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service"
 	"github.com/labstack/echo/v4"
 )
 
 type HTTPHandler struct {
+	userSvc service.User
 }
 
-func NewHTTPHandler() HTTPHandler {
-	return HTTPHandler{}
+func NewHTTPHandler(userSvc service.User) HTTPHandler {
+	return HTTPHandler{userSvc: userSvc}
 }
 
-func (hdl HTTPHandler) GetAllUsers(c echo.Context) error {
+func (hdl HTTPHandler) GetAll(c echo.Context) error {
 
-	var req models.AddToCartRequest
-	var res models.AddToCartResponse
-
-	if err := c.Bind(&req); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, apiresponse.InvalidInputError(nil))
+	var response models.UserGetAllResponse
+	resultList, err := hdl.userSvc.GetAll()
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest)
 	}
 
-	// cartId, no, err := hdl.cartService.AddToCart(req)
-	// if err != nil {
-	// 	return echo.NewHTTPError(http.StatusBadRequest, apiresponse.InternalError(err))
-	// }
+	var responseBodyList = make([]models.UserGetAllResponseBody, 0, len(resultList))
+	for _, each := range resultList {
+		responseBodyList = append(responseBodyList, models.UserGetAllResponseBody{
+			UserId:       each.UserId,
+			RoleId:       each.RoleId,
+			FirstName:    each.FirstName,
+			LastName:     each.LastName,
+			EmailAddress: each.EmailAddress,
+			PhoneNumber:  each.PhoneNumber,
+		})
+	}
 
-	// res.CommonResponse = apiresponse.SuccessResponse()
-	// res.Data.CartId = cartId
-	// res.Data.No = no
+	response.Code = constant.SuccessCode
+	response.Message = constant.SuccessMessage
+	response.Data = responseBodyList
 
-	return c.JSON(http.StatusOK, res)
+	return c.JSON(http.StatusOK, response)
 }

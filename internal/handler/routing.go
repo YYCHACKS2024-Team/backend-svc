@@ -1,11 +1,12 @@
 package handler
 
 import (
+	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/userHandler"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func InitRoute(e *echo.Echo) {
+func InitRoute(e *echo.Echo, userHandler userHandler.HTTPHandler) {
 
 	e.Use(
 		middleware.Logger(),
@@ -19,11 +20,11 @@ func InitRoute(e *echo.Echo) {
 
 	// User
 	user := e.Group("/user")
-	user.GET("/users", nil)          // get all user
-	user.GET("/user/:user_id", nil)  // get user by id
-	user.POST("/user/register", nil) // create user
-	user.POST("/user/login", nil)    // login
-	user.GET("/user/profile", nil)   // get user profile
+	user.GET("/users", userHandler.GetAll) // get all user
+	user.GET("/user/:user_id", nil)        // get user by id
+	user.POST("/user/register", nil)       // create user
+	user.POST("/user/login", nil)          // login
+	user.GET("/user/profile", nil)         // get user profile
 
 	user.POST("/user/preferences", nil) // store preference
 

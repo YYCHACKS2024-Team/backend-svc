@@ -1,19 +1,15 @@
 package models
 
-type AddToCartRequest struct {
-	CustomerId        string `json:"customer_id,omitempty"`
-	MenuId            string `json:"menu_id,omitempty"`
-	Quantity          int    `json:"quantity,omitempty"`
-	Properties        string `json:"properties,omitempty"`
-	AdditionalRequest string `json:"additional_request,omitempty"`
-}
-
-type AddToCartResponse struct {
+type UserGetAllResponse struct {
 	CommonResponse
-	Data AddToCartResponseBody `json:"data,omitempty"`
+	Data []UserGetAllResponseBody `json:"data,omitempty"`
 }
 
-type AddToCartResponseBody struct {
-	CartId string `json:"cart_id,omitempty"`
-	No     int    `json:"no,omitempty"`
+type UserGetAllResponseBody struct {
+	UserId       string `json:"user_id"`
+	RoleId       string `json:"role_id,omitempty"`
+	FirstName    string `json:"first_name,omitempty"`
+	LastName     string `json:"last_name,omitempty"`
+	EmailAddress string `json:"email_address,omitempty"`
+	PhoneNumber  string `json:"phone_number,omitempty"`
 }
