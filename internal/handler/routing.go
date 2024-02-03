@@ -20,11 +20,11 @@ func InitRoute(e *echo.Echo, userHandler userHandler.HTTPHandler) {
 
 	// User
 	user := e.Group("/user")
-	user.GET("/users", userHandler.GetAll) // get all user
-	user.GET("/user/:user_id", nil)        // get user by id
-	user.POST("/user/register", nil)       // create user
-	user.POST("/user/login", nil)          // login
-	user.GET("/user/profile", nil)         // get user profile
+	user.GET("/users", userHandler.GetAll)              // get all user
+	user.GET("/user/:user_id", userHandler.GetUserById) // get user by id
+	user.POST("/user/register", userHandler.Register)   // create user
+	user.POST("/user/login", userHandler.Login)         // login
+	user.GET("/user/profile", userHandler.GetProfile)   // get user profile
 
 	user.POST("/user/preferences", nil) // store preference
 

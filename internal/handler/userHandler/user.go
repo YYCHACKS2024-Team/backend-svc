@@ -43,3 +43,31 @@ func (hdl HTTPHandler) GetAll(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response)
 }
+
+func (hdl HTTPHandler) GetUserById(c echo.Context) error {
+
+	// TODO: implement here
+
+	return nil
+}
+
+func (hdl HTTPHandler) Register(c echo.Context) error {
+
+	// TODO: implement here
+
+	return nil
+}
+
+func (hdl HTTPHandler) Login(c echo.Context) error {
+
+	// TODO: implement here
+
+	return nil
+}
+
+func (hdl HTTPHandler) GetProfile(c echo.Context) error {
+
+	// TODO: implement here
+
+	return nil
+}
