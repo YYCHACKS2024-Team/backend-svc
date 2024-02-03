@@ -26,7 +26,7 @@ func InitRoute(e *echo.Echo, userHandler userHandler.HTTPHandler) {
 	user.POST("/user/login", userHandler.Login)         // login
 	user.GET("/user/profile", userHandler.GetProfile)   // get user profile
 
-	user.POST("/user/preferences", nil) // store preference
+	user.POST("/user/preferences", userHandler.StorePreferences) // store preference
 
 	// roommate
 	roommate := e.Group("/roommate")

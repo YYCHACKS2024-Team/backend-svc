@@ -71,3 +71,10 @@ func (hdl HTTPHandler) GetProfile(c echo.Context) error {
 
 	return nil
 }
+
+func (hdl HTTPHandler) StorePreferences(c echo.Context) error {
+
+	// TODO: implement here
+
+	return nil
+}
