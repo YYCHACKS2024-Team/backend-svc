@@ -5,16 +5,14 @@ import (
 
 	apiresponse "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/api_response"
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/models"
-	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service"
 	"github.com/labstack/echo/v4"
 )
 
 type HTTPHandler struct {
-	cartService service.CartService
 }
 
-func NewHTTPHandler(cartSvc service.CartService) HTTPHandler {
-	return HTTPHandler{cartService: cartSvc}
+func NewHTTPHandler() HTTPHandler {
+	return HTTPHandler{}
 }
 
 func (hdl HTTPHandler) AddToCart(c echo.Context) error {
