@@ -30,7 +30,6 @@ func InitRoute(e *echo.Echo, userHandler userHandler.HTTPHandler) {
 
 	// roommate
 	roommate := e.Group("/roommate")
-	roommate.GET("/roommate/:room_id", nil) // get room list
 	roommate.POST("/roommate/accept", nil)
 	roommate.POST("/roommate/decline", nil)
 

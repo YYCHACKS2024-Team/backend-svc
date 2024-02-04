@@ -5,6 +5,10 @@ import (
 	"net/http"
 
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/config"
+	conversationdb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/conversationDB"
+	matchhistdb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/matchHistDB"
+	roledb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/roleDB"
+	roomdb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/roomDB"
 	userdb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/userDB"
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler"
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/userHandler"
@@ -32,10 +36,10 @@ func main() {
 
 	// Init repositories
 	userDB := userdb.New(db)
-	// orderDB := orderdb.New(db)
-	// discountDB := discountdb.New(db)
-
-	// Init gateway
+	roomDB := roomdb.New(db)
+	discountDB := roledb.New(db)
+	matchHistDB := matchhistdb.New(db)
+	conversationDB := conversationdb.New(db)
 
 	// Init services
 	userSvc := userservice.New(userDB)

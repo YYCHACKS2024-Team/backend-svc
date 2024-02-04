@@ -7,4 +7,13 @@ type (
 	UserRepository interface {
 		GetAll() ([]models.User, error)
 	}
+
+	RooomRepository interface {
+	}
+	RoleRepository interface {
+	}
+	ConversationRepository interface {
+	}
+	MessageRepository interface {
+	}
 )
