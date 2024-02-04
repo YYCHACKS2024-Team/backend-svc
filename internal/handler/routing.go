@@ -1,12 +1,16 @@
 package handler
 
 import (
+	chathandler "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/chatHandler"
+	househandler "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/houseHandler"
+	roommatehandler "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/roommateHandler"
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/userHandler"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func InitRoute(e *echo.Echo, userHandler userHandler.HTTPHandler) {
+func InitRoute(e *echo.Echo, userHandler userHandler.HTTPHandler, roommateHandler roommatehandler.HTTPHandler,
+	houseHandler househandler.HTTPHandler, chatHandler chathandler.HTTPHandler) {
 
 	e.Use(
 		middleware.Logger(),
@@ -30,16 +34,16 @@ func InitRoute(e *echo.Echo, userHandler userHandler.HTTPHandler) {
 
 	// roommate
 	roommate := e.Group("/roommate")
-	roommate.POST("/roommate/accept", nil)
-	roommate.POST("/roommate/decline", nil)
+	roommate.POST("/roommate/accept", roommateHandler.Accept)
+	roommate.POST("/roommate/decline", roommateHandler.Decine)
 
 	// chat
 	chat := e.Group("/chat")
-	chat.POST("/chat/store", nil)
-	chat.GET("/chat/:conversation_id", nil)             // get conversation room by id
-	chat.GET("/chat/:conversation_id/:message_id", nil) // get message id
+	chat.POST("/chat/store", chatHandler.StoreChatHistory)
+	chat.GET("/chat/:conversation_id", chatHandler.GetChatByConversationId)        // get conversation room by id
+	chat.GET("/chat/:conversation_id/:message_id", chatHandler.GetChatByMessageId) // get message id
 
 	// house
 	house := e.Group("/house")
-	house.GET("/house/:house_id", nil) // get house detail by id
+	house.GET("/house/:house_id", houseHandler.GetHouseById) // get house detail by id
 }

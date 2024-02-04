@@ -7,12 +7,19 @@ import (
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/config"
 	conversationdb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/conversationDB"
 	matchhistdb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/matchHistDB"
+	messagedb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/messageDB"
 	roledb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/roleDB"
 	roomdb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/roomDB"
 	userdb "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/adaptor/repositories/database/userDB"
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler"
+	chathandler "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/chatHandler"
+	househandler "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/houseHandler"
+	roommatehandler "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/roommateHandler"
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/handler/userHandler"
 	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/helper/logger"
+	chatservice "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service/chatService"
+	houseservice "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service/houseService"
+	roommateservice "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service/roommateService"
 	userservice "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service/userService"
 	"github.com/labstack/echo/v4"
 	"gorm.io/driver/mysql"
@@ -37,21 +44,26 @@ func main() {
 	// Init repositories
 	userDB := userdb.New(db)
 	roomDB := roomdb.New(db)
-	discountDB := roledb.New(db)
+	roleDB := roledb.New(db)
 	matchHistDB := matchhistdb.New(db)
 	conversationDB := conversationdb.New(db)
+	messageDB := messagedb.New(db)
 
 	// Init services
-	userSvc := userservice.New(userDB)
+	userSvc := userservice.New(userDB, roleDB)
+	roommateSvc := roommateservice.New(userDB, roomDB, matchHistDB)
+	houseSvc := houseservice.New(roomDB)
+	chatSvc := chatservice.New(conversationDB, messageDB)
 
 	// Init handlers
 	userHdl := userHandler.NewHTTPHandler(userSvc)
-	// orderHdl := orderhandler.NewHTTPHandler(orderSrv)
-	// discountHdl := discounthandler.NewHTTPHandler(discountSrv)
+	roommateHdl := roommatehandler.NewHTTPHandler(roommateSvc)
+	houseHdl := househandler.NewHTTPHandler(houseSvc)
+	chatHdl := chathandler.NewHTTPHandler(chatSvc)
 
 	// Starting server
 	e := echo.New()
-	handler.InitRoute(e, userHdl)
+	handler.InitRoute(e, userHdl, roommateHdl, houseHdl, chatHdl)
 
 	logger.Infof("Starting server on port %v...\n", cfg.App.Port)
 	if err := e.Start(":" + cfg.App.Port); err != http.ErrServerClosed {

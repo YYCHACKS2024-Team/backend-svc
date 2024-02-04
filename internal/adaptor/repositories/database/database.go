@@ -7,7 +7,6 @@ type (
 	UserRepository interface {
 		GetAll() ([]models.User, error)
 	}
-
 	RooomRepository interface {
 	}
 	RoleRepository interface {
@@ -15,5 +14,7 @@ type (
 	ConversationRepository interface {
 	}
 	MessageRepository interface {
+	}
+	MatchHistRepository interface {
 	}
 )

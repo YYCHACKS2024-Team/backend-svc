@@ -1,13 +1,16 @@
 package roommatehandler
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service"
+	"github.com/labstack/echo/v4"
+)
 
 type HTTPHandler struct {
-	// userSvc service.User
+	roommateSvc service.Roommate
 }
 
-func NewHTTPHandler() HTTPHandler {
-	return HTTPHandler{}
+func NewHTTPHandler(roommateSvc service.Roommate) HTTPHandler {
+	return HTTPHandler{roommateSvc: roommateSvc}
 }
 
 func (hdl HTTPHandler) GetRoomById(c echo.Context) error {

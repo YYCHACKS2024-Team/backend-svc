@@ -1,13 +1,16 @@
 package househandler
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service"
+	"github.com/labstack/echo/v4"
+)
 
 type HTTPHandler struct {
-	// userSvc service.User
+	houseSvc service.House
 }
 
-func NewHTTPHandler() HTTPHandler {
-	return HTTPHandler{}
+func NewHTTPHandler(houseSvc service.House) HTTPHandler {
+	return HTTPHandler{houseSvc: houseSvc}
 }
 
 func (hdl HTTPHandler) GetHouseById(c echo.Context) error {

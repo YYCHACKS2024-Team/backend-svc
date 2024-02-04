@@ -1,13 +1,16 @@
 package chathandler
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service"
+	"github.com/labstack/echo/v4"
+)
 
 type HTTPHandler struct {
-	// userSvc service.User
+	chatSvc service.Chat
 }
 
-func NewHTTPHandler() HTTPHandler {
-	return HTTPHandler{}
+func NewHTTPHandler(chatSvc service.Chat) HTTPHandler {
+	return HTTPHandler{chatSvc: chatSvc}
 }
 
 func (hdl HTTPHandler) StoreChatHistory(c echo.Context) error {

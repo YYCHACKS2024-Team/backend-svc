@@ -8,10 +8,11 @@ import (
 
 type userSvc struct {
 	userRepo database.UserRepository
+	roleRepo database.RoleRepository
 }
 
-func New(userRepo database.UserRepository) service.User {
-	return userSvc{userRepo: userRepo}
+func New(userRepo database.UserRepository, roleRepo database.RoleRepository) service.User {
+	return userSvc{userRepo: userRepo, roleRepo: roleRepo}
 }
 
 const ()
