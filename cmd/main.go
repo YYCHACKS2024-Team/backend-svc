@@ -72,7 +72,6 @@ func main() {
 }
 
 func initDB(dbCfg config.Database) (*gorm.DB, error) {
-	// host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai
 	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=America/Edmonton Canada/Mountain",
 		dbCfg.Host,
 		dbCfg.Username,
