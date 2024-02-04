@@ -25,3 +25,14 @@ func (repo repository) GetAll() ([]models.User, error) {
 
 	return users, nil
 }
+
+func (repo repository) GetUserById(userId string) (models.User, error) {
+
+	var user models.User
+	tx := repo.db.Where(models.User{UserId: userId}).First(&user)
+	if tx.Error != nil {
+		return models.User{}, tx.Error
+	}
+
+	return user, nil
+}

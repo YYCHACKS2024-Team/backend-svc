@@ -6,6 +6,7 @@ type (
 	// carts          table
 	UserRepository interface {
 		GetAll() ([]models.User, error)
+		GetUserById(userId string) (models.User, error)
 	}
 	RooomRepository interface {
 	}
