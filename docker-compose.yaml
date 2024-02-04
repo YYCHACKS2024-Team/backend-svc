@@ -16,6 +16,7 @@ services:
     environment:
       POSTGRES_USER: 'user'
       POSTGRES_PASSWORD: 'password'
+      POSTGRES_DB: 'main'
     ports:
       - '5432:5432'
     expose:
@@ -24,7 +25,7 @@ services:
       - db_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD", "pg_isready", "-q", "-d", "your_database_name", "-U", "your_username"]
+      test: ["CMD", "pg_isready", "-q", "-d", "main", "-U", "user"]
       interval: 10s
       timeout: 5s
       retries: 5

@@ -4,11 +4,11 @@ app:
 log:
     env: "dev"
 database:
-    username: root
-    password: root
+    username: user
+    password: password
     host: 127.0.0.1
-    port: 3306
-    dbname: payment
+    port: 5432
+    dbname: main
 gateway:
     productservice:
         hosturl: "http://127.0.0.1:8081"
