@@ -24,9 +24,10 @@ services:
       - db_data:/var/lib/postgresql/data
       - ./init-scripts:/docker-entrypoint-initdb.d
     healthcheck:
-      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
-      timeout: 20s
-      retries: 10
+      test: ["CMD", "pg_isready", "-q", "-d", "your_database_name", "-U", "your_username"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   db_data:  
