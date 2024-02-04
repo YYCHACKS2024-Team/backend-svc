@@ -5,6 +5,7 @@ import "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/mode
 type (
 	User interface {
 		GetAll() ([]models.User, error)
+		GetUserById(userId string) (models.User, error)
 	}
 
 	Roommate interface {

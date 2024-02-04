@@ -46,9 +46,27 @@ func (hdl HTTPHandler) GetAll(c echo.Context) error {
 
 func (hdl HTTPHandler) GetUserById(c echo.Context) error {
 
-	// TODO: implement here
+	userId := c.Param("user_id")
+	var response models.UserGetResponse
 
-	return nil
+	result, err := hdl.userSvc.GetUserById(userId)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusBadRequest)
+	}
+
+	responseBody := models.UserGetResponseBody{
+		UserId:       result.UserId,
+		RoleId:       result.RoleId,
+		FirstName:    result.FirstName,
+		LastName:     result.LastName,
+		EmailAddress: result.EmailAddress,
+		PhoneNumber:  result.PhoneNumber,
+	}
+	response.Code = constant.SuccessCode
+	response.Message = constant.SuccessMessage
+	response.Data = responseBody
+
+	return c.JSON(http.StatusOK, response)
 }
 
 func (hdl HTTPHandler) Register(c echo.Context) error {

@@ -21,3 +21,8 @@ func (srv userSvc) GetAll() ([]models.User, error) {
 
 	return nil, nil
 }
+
+func (srv userSvc) GetUserById(userId string) (models.User, error) {
+
+	return models.User{}, nil
+}
