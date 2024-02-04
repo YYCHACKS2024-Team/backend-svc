@@ -22,7 +22,7 @@ import (
 	roommateservice "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service/roommateService"
 	userservice "github.com/CLCM3102-Ice-Cream-Shop/backend-payment-service/internal/service/userService"
 	"github.com/labstack/echo/v4"
-	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -72,17 +72,18 @@ func main() {
 }
 
 func initDB(dbCfg config.Database) (*gorm.DB, error) {
-	dsn := fmt.Sprintf("%v:%v@tcp(%v:%v)/%v?charset=utf8mb4&parseTime=True&loc=Local",
+	// host=localhost user=gorm password=gorm dbname=gorm port=9920 sslmode=disable TimeZone=Asia/Shanghai
+	dsn := fmt.Sprintf("host=%v user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=America/Edmonton Canada/Mountain",
+		dbCfg.Host,
 		dbCfg.Username,
 		dbCfg.Password,
-		dbCfg.Host,
-		dbCfg.Port,
 		dbCfg.DBName,
+		dbCfg.Port,
 	)
 
 	logger.Infof("Connecting database... %v", dsn)
 
-	gormDB, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	gormDB, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		return nil, err
 	}
